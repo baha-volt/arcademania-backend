@@ -1,8 +1,9 @@
 package cl.bahatech.pinball.application.service;
 
-import cl.bahatech.pinball.domain.model.PinballMachine;
 import cl.bahatech.pinball.domain.exception.DuplicatePinballMachineException;
 import cl.bahatech.pinball.domain.exception.NonExistingPinballMachineException;
+import cl.bahatech.pinball.domain.model.PinballMachine;
+import cl.bahatech.pinball.infrastructure.persistence.PinballMachineEntity;
 import cl.bahatech.pinball.repository.PinballMachineRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,42 +22,44 @@ public class PinballMachineServiceImpl implements PinballMachineService {
     @Override
     @Transactional(readOnly = true)
     public List<PinballMachine> findAll() {
-        return repository.findAll();
+        return repository.findAll().stream()
+                .map(this::toDomain)
+                .toList();
     }
 
     @Override
     @Transactional(readOnly = true)
     public PinballMachine findById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new NonExistingPinballMachineException("Pinball machine with ID " + id + " not found"));
+        return toDomain(findEntityById(id));
     }
 
     @Override
     @Transactional
     public PinballMachine save(PinballMachine pinballMachine) {
-        if (repository.existsByModelName(pinballMachine.getModelName())) {
+        if (repository.existsByModelName(pinballMachine.modelName())) {
             throw new DuplicatePinballMachineException(
-                    "A pinball machine with model name '" + pinballMachine.getModelName() + "' already exists");
+                    "A pinball machine with model name '" + pinballMachine.modelName() + "' already exists");
         }
-        return repository.save(pinballMachine);
+        PinballMachineEntity saved = repository.save(toEntity(pinballMachine));
+        return toDomain(saved);
     }
 
     @Override
     @Transactional
     public PinballMachine update(Long id, PinballMachine pinballMachine) {
-        PinballMachine existing = findById(id);
-        existing.setModelName(pinballMachine.getModelName());
-        existing.setManufacturer(pinballMachine.getManufacturer());
-        existing.setRarityTier(pinballMachine.getRarityTier());
-        existing.setImageUrl(pinballMachine.getImageUrl());
-        existing.setHistoricalSummary(pinballMachine.getHistoricalSummary());
-        existing.setReleaseYear(pinballMachine.getReleaseYear());
-        existing.setUnitsProduced(pinballMachine.getUnitsProduced());
-        existing.setRestorationCostUsd(pinballMachine.getRestorationCostUsd());
-        existing.setConditionRating(pinballMachine.getConditionRating());
-        existing.setIsFullyFunctional(pinballMachine.getIsFullyFunctional());
-        existing.setHasMultiball(pinballMachine.getHasMultiball());
-        return repository.save(existing);
+        PinballMachineEntity existing = findEntityById(id);
+        existing.setModelName(pinballMachine.modelName());
+        existing.setManufacturer(pinballMachine.manufacturer());
+        existing.setRarityTier(pinballMachine.rarityTier());
+        existing.setImageUrl(pinballMachine.imageUrl());
+        existing.setHistoricalSummary(pinballMachine.historicalSummary());
+        existing.setReleaseYear(pinballMachine.releaseYear());
+        existing.setUnitsProduced(pinballMachine.unitsProduced());
+        existing.setRestorationCostUsd(pinballMachine.restorationCostUsd());
+        existing.setConditionRating(pinballMachine.conditionRating());
+        existing.setIsFullyFunctional(pinballMachine.isFullyFunctional());
+        existing.setHasMultiball(pinballMachine.hasMultiball());
+        return toDomain(repository.save(existing));
     }
 
     @Override
@@ -66,6 +69,44 @@ public class PinballMachineServiceImpl implements PinballMachineService {
             throw new NonExistingPinballMachineException("Cannot delete: pinball machine with ID " + id + " not found");
         }
         repository.deleteById(id);
+    }
+
+    private PinballMachineEntity findEntityById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new NonExistingPinballMachineException("Pinball machine with ID " + id + " not found"));
+    }
+
+    private PinballMachine toDomain(PinballMachineEntity entity) {
+        return new PinballMachine(
+                entity.getId(),
+                entity.getModelName(),
+                entity.getManufacturer(),
+                entity.getRarityTier(),
+                entity.getImageUrl(),
+                entity.getHistoricalSummary(),
+                entity.getReleaseYear(),
+                entity.getUnitsProduced(),
+                entity.getRestorationCostUsd(),
+                entity.getConditionRating(),
+                entity.getIsFullyFunctional(),
+                entity.getHasMultiball()
+        );
+    }
+
+    private PinballMachineEntity toEntity(PinballMachine domain) {
+        return new PinballMachineEntity(
+                domain.modelName(),
+                domain.manufacturer(),
+                domain.rarityTier(),
+                domain.imageUrl(),
+                domain.historicalSummary(),
+                domain.releaseYear(),
+                domain.unitsProduced(),
+                domain.restorationCostUsd(),
+                domain.conditionRating(),
+                domain.isFullyFunctional(),
+                domain.hasMultiball()
+        );
     }
 
 }

@@ -70,7 +70,7 @@ public class PinballMachineController {
     })
     @PostMapping
     public ResponseEntity<PinballMachineResponseDto> createPinball(@Valid @RequestBody PinballMachineRequestDto request) {
-        PinballMachine created = service.save(toEntity(request));
+        PinballMachine created = service.save(toDomain(request));
         return ResponseEntity.status(HttpStatus.CREATED).body(toResponse(created));
     }
 
@@ -85,7 +85,7 @@ public class PinballMachineController {
     public ResponseEntity<PinballMachineResponseDto> updatePinball(
             @PathVariable Long id,
             @Valid @RequestBody PinballMachineRequestDto request) {
-        PinballMachine updated = service.update(id, toEntity(request));
+        PinballMachine updated = service.update(id, toDomain(request));
         return ResponseEntity.ok(toResponse(updated));
     }
 
@@ -101,8 +101,9 @@ public class PinballMachineController {
         return ResponseEntity.noContent().build();
     }
 
-    private PinballMachine toEntity(PinballMachineRequestDto dto) {
+    private PinballMachine toDomain(PinballMachineRequestDto dto) {
         return new PinballMachine(
+                null,
                 dto.modelName(),
                 dto.manufacturer(),
                 dto.rarityTier(),
@@ -117,20 +118,20 @@ public class PinballMachineController {
         );
     }
 
-    private PinballMachineResponseDto toResponse(PinballMachine entity) {
+    private PinballMachineResponseDto toResponse(PinballMachine domain) {
         return new PinballMachineResponseDto(
-                entity.getId(),
-                entity.getModelName(),
-                entity.getManufacturer(),
-                entity.getRarityTier(),
-                entity.getImageUrl(),
-                entity.getHistoricalSummary(),
-                entity.getReleaseYear(),
-                entity.getUnitsProduced(),
-                entity.getRestorationCostUsd(),
-                entity.getConditionRating(),
-                entity.getIsFullyFunctional(),
-                entity.getHasMultiball()
+                domain.id(),
+                domain.modelName(),
+                domain.manufacturer(),
+                domain.rarityTier(),
+                domain.imageUrl(),
+                domain.historicalSummary(),
+                domain.releaseYear(),
+                domain.unitsProduced(),
+                domain.restorationCostUsd(),
+                domain.conditionRating(),
+                domain.isFullyFunctional(),
+                domain.hasMultiball()
         );
     }
 
