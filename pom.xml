@@ -7,55 +7,54 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.18</version>
+		<version>4.1.0</version>
 		<relativePath/>
 	</parent>
 
 	<groupId>com.arcadenostalgia</groupId>
 	<artifactId>arcade-nostalgia</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<!-- CAMBIO 1: Declaración de empaquetamiento WAR -->
 	<packaging>war</packaging>
 
 	<name>arcade-nostalgia</name>
-	<description>API REST para catálogo y conservación de Pinballs Vintage</description>
+	<description>API REST para catalogo y conservacion de Pinballs Vintage</description>
 
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>25</java.version>
 	</properties>
 
 	<dependencies>
-		<!-- Web (REST Controller, Jackson JSON) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!-- CAMBIO 2: Marcar Tomcat como "provided" para despliegue externo -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- JPA / Hibernate -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
-		<!-- Driver PostgreSQL -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- Tests -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>3.0.3</version>
 		</dependency>
 	</dependencies>
 
@@ -67,4 +66,5 @@
 			</plugin>
 		</plugins>
 	</build>
+
 </project>

@@ -1,6 +1,12 @@
 package cl.bahatech.pinball.domain;
 
-import javax.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -20,7 +26,7 @@ public class PinballMachine {
     private String manufacturer;
 
     @Column(name = "rarity_tier", length = 30)
-    private String rarityTier; // Ej: "Leyenda", "Edición Limitada", "De Colección"
+    private String rarityTier;
 
     @Column(name = "image_url", length = 500)
     private String imageUrl;
@@ -38,7 +44,7 @@ public class PinballMachine {
     private BigDecimal restorationCostUsd;
 
     @Column(name = "condition_rating")
-    private Double conditionRating; // Puntuación de 1.0 a 5.0
+    private Double conditionRating;
 
     @Column(name = "is_fully_functional", nullable = false)
     private Boolean isFullyFunctional;
@@ -50,9 +56,9 @@ public class PinballMachine {
     }
 
     public PinballMachine(String modelName, String manufacturer, String rarityTier,
-                          String imageUrl, String historicalSummary, Integer releaseYear,
-                          Integer unitsProduced, BigDecimal restorationCostUsd,
-                          Double conditionRating, Boolean isFullyFunctional, Boolean hasMultiball) {
+                           String imageUrl, String historicalSummary, Integer releaseYear,
+                           Integer unitsProduced, BigDecimal restorationCostUsd,
+                           Double conditionRating, Boolean isFullyFunctional, Boolean hasMultiball) {
         this.modelName = modelName;
         this.manufacturer = manufacturer;
         this.rarityTier = rarityTier;
