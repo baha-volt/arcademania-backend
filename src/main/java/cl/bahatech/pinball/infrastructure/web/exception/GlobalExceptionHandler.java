@@ -1,6 +1,8 @@
-package cl.bahatech.pinball.exception;
+package cl.bahatech.pinball.infrastructure.web.exception;
 
-import cl.bahatech.pinball.dto.ErrorResponse;
+import cl.bahatech.pinball.domain.exception.DuplicatePinballMachineException;
+import cl.bahatech.pinball.domain.exception.NonExistingPinballMachineException;
+import cl.bahatech.pinball.infrastructure.web.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

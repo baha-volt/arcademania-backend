@@ -1,4 +1,4 @@
-package cl.bahatech.pinball.dto;
+package cl.bahatech.pinball.infrastructure.web.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMax;

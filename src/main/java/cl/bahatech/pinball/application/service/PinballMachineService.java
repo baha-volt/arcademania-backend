@@ -1,6 +1,6 @@
-package cl.bahatech.pinball.service;
+package cl.bahatech.pinball.application.service;
 
-import cl.bahatech.pinball.domain.PinballMachine;
+import cl.bahatech.pinball.domain.model.PinballMachine;
 
 import java.util.List;
 

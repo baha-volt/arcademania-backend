@@ -1,8 +1,8 @@
-package cl.bahatech.pinball.service;
+package cl.bahatech.pinball.application.service;
 
-import cl.bahatech.pinball.domain.PinballMachine;
-import cl.bahatech.pinball.exception.DuplicatePinballMachineException;
-import cl.bahatech.pinball.exception.NonExistingPinballMachineException;
+import cl.bahatech.pinball.domain.model.PinballMachine;
+import cl.bahatech.pinball.domain.exception.DuplicatePinballMachineException;
+import cl.bahatech.pinball.domain.exception.NonExistingPinballMachineException;
 import cl.bahatech.pinball.repository.PinballMachineRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

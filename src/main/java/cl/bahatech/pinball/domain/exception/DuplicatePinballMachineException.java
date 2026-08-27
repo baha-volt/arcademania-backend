@@ -1,4 +1,4 @@
-package cl.bahatech.pinball.exception;
+package cl.bahatech.pinball.domain.exception;
 
 public class DuplicatePinballMachineException extends RuntimeException {
 

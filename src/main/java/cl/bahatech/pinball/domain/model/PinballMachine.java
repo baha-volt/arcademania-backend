@@ -1,4 +1,4 @@
-package cl.bahatech.pinball.domain;
+package cl.bahatech.pinball.domain.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

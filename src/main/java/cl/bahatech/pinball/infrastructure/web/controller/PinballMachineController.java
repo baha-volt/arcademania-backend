@@ -1,9 +1,9 @@
-package cl.bahatech.pinball.controller;
+package cl.bahatech.pinball.infrastructure.web.controller;
 
-import cl.bahatech.pinball.domain.PinballMachine;
-import cl.bahatech.pinball.dto.PinballMachineRequestDto;
-import cl.bahatech.pinball.dto.PinballMachineResponseDto;
-import cl.bahatech.pinball.service.PinballMachineService;
+import cl.bahatech.pinball.domain.model.PinballMachine;
+import cl.bahatech.pinball.infrastructure.web.dto.PinballMachineRequestDto;
+import cl.bahatech.pinball.infrastructure.web.dto.PinballMachineResponseDto;
+import cl.bahatech.pinball.application.service.PinballMachineService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
