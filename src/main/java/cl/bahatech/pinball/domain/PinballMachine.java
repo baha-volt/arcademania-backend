@@ -19,7 +19,7 @@ public class PinballMachine {
     @Column(name = "id_pinball")
     private Long id;
 
-    @Column(name = "model_name", nullable = false, length = 120)
+    @Column(name = "model_name", nullable = false, unique = true, length = 120)
     private String modelName;
 
     @Column(name = "manufacturer", nullable = false, length = 80)
