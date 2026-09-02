@@ -4,6 +4,9 @@ spring:
   profiles:
     active: dev
 
+cors:
+  allowed-origins: ${FRONTEND_URL:http://localhost:5173}
+
 springdoc:
   api-docs:
     enabled: false

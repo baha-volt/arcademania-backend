@@ -10,6 +10,8 @@ public interface PinballMachineService {
 
     PinballMachine findById(Long id);
 
+    PinballMachine findByModelName(String modelName);
+
     PinballMachine save(PinballMachine pinballMachine);
 
     PinballMachine update(Long id, PinballMachine pinballMachine);

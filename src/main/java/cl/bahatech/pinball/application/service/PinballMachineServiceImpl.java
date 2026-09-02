@@ -34,11 +34,20 @@ public class PinballMachineServiceImpl implements PinballMachineService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public PinballMachine findByModelName(String modelName) {
+        PinballMachineEntity entity = repository.findByModelNameIgnoreCase(modelName)
+                .orElseThrow(() -> new NonExistingPinballMachineException(
+                        "Pinball machine with model name '" + modelName + "' not found"));
+        return toDomain(entity);
+    }
+
+    @Override
     @Transactional
     public PinballMachine save(PinballMachine pinballMachine) {
-        if (repository.existsByModelName(pinballMachine.modelName())) {
+        if (repository.existsByModelName(pinballMachine.getModelName())) {
             throw new DuplicatePinballMachineException(
-                    "A pinball machine with model name '" + pinballMachine.modelName() + "' already exists");
+                    "A pinball machine with model name '" + pinballMachine.getModelName() + "' already exists");
         }
         PinballMachineEntity saved = repository.save(toEntity(pinballMachine));
         return toDomain(saved);
@@ -48,17 +57,17 @@ public class PinballMachineServiceImpl implements PinballMachineService {
     @Transactional
     public PinballMachine update(Long id, PinballMachine pinballMachine) {
         PinballMachineEntity existing = findEntityById(id);
-        existing.setModelName(pinballMachine.modelName());
-        existing.setManufacturer(pinballMachine.manufacturer());
-        existing.setRarityTier(pinballMachine.rarityTier());
-        existing.setImageUrl(pinballMachine.imageUrl());
-        existing.setHistoricalSummary(pinballMachine.historicalSummary());
-        existing.setReleaseYear(pinballMachine.releaseYear());
-        existing.setUnitsProduced(pinballMachine.unitsProduced());
-        existing.setRestorationCostUsd(pinballMachine.restorationCostUsd());
-        existing.setConditionRating(pinballMachine.conditionRating());
-        existing.setIsFullyFunctional(pinballMachine.isFullyFunctional());
-        existing.setHasMultiball(pinballMachine.hasMultiball());
+        existing.setModelName(pinballMachine.getModelName());
+        existing.setManufacturer(pinballMachine.getManufacturer());
+        existing.setRarityTier(pinballMachine.getRarityTier());
+        existing.setImageUrl(pinballMachine.getImageUrl());
+        existing.setHistoricalSummary(pinballMachine.getHistoricalSummary());
+        existing.setReleaseYear(pinballMachine.getReleaseYear());
+        existing.setUnitsProduced(pinballMachine.getUnitsProduced());
+        existing.setRestorationCostUsd(pinballMachine.getRestorationCostUsd());
+        existing.setConditionRating(pinballMachine.getConditionRating());
+        existing.setIsFullyFunctional(pinballMachine.getIsFullyFunctional());
+        existing.setHasMultiball(pinballMachine.getHasMultiball());
         return toDomain(repository.save(existing));
     }
 
@@ -95,17 +104,17 @@ public class PinballMachineServiceImpl implements PinballMachineService {
 
     private PinballMachineEntity toEntity(PinballMachine domain) {
         return new PinballMachineEntity(
-                domain.modelName(),
-                domain.manufacturer(),
-                domain.rarityTier(),
-                domain.imageUrl(),
-                domain.historicalSummary(),
-                domain.releaseYear(),
-                domain.unitsProduced(),
-                domain.restorationCostUsd(),
-                domain.conditionRating(),
-                domain.isFullyFunctional(),
-                domain.hasMultiball()
+                domain.getModelName(),
+                domain.getManufacturer(),
+                domain.getRarityTier(),
+                domain.getImageUrl(),
+                domain.getHistoricalSummary(),
+                domain.getReleaseYear(),
+                domain.getUnitsProduced(),
+                domain.getRestorationCostUsd(),
+                domain.getConditionRating(),
+                domain.getIsFullyFunctional(),
+                domain.getHasMultiball()
         );
     }
 

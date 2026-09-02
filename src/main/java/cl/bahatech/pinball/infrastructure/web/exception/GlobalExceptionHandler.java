@@ -1,6 +1,13 @@
 package cl.bahatech.pinball.infrastructure.web.exception;
 
 import cl.bahatech.pinball.domain.exception.DuplicatePinballMachineException;
+import cl.bahatech.pinball.domain.exception.InvalidPinballMachineConditionRatingException;
+import cl.bahatech.pinball.domain.exception.InvalidPinballMachineFunctionalStatusException;
+import cl.bahatech.pinball.domain.exception.InvalidPinballMachineManufacturerException;
+import cl.bahatech.pinball.domain.exception.InvalidPinballMachineModelNameException;
+import cl.bahatech.pinball.domain.exception.InvalidPinballMachineReleaseYearException;
+import cl.bahatech.pinball.domain.exception.InvalidPinballMachineRestorationCostException;
+import cl.bahatech.pinball.domain.exception.InvalidPinballMachineUnitsProducedException;
 import cl.bahatech.pinball.domain.exception.NonExistingPinballMachineException;
 import cl.bahatech.pinball.infrastructure.web.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
@@ -31,6 +38,19 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DuplicatePinballMachineException.class)
     public ResponseEntity<ErrorResponse> handleDuplicate(DuplicatePinballMachineException ex) {
         return buildResponse(HttpStatus.CONFLICT, ex.getMessage());
+    }
+
+    @ExceptionHandler({
+            InvalidPinballMachineModelNameException.class,
+            InvalidPinballMachineManufacturerException.class,
+            InvalidPinballMachineReleaseYearException.class,
+            InvalidPinballMachineUnitsProducedException.class,
+            InvalidPinballMachineRestorationCostException.class,
+            InvalidPinballMachineConditionRatingException.class,
+            InvalidPinballMachineFunctionalStatusException.class
+    })
+    public ResponseEntity<ErrorResponse> handleDomainValidation(RuntimeException ex) {
+        return buildResponse(HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)

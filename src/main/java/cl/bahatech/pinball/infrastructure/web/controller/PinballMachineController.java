@@ -5,6 +5,7 @@ import cl.bahatech.pinball.infrastructure.web.dto.PinballMachineRequestDto;
 import cl.bahatech.pinball.infrastructure.web.dto.PinballMachineResponseDto;
 import cl.bahatech.pinball.application.service.PinballMachineService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -61,11 +63,25 @@ public class PinballMachineController {
         return ResponseEntity.ok(toResponse(service.findById(id)));
     }
 
+    @Operation(summary = "Buscar maquina por nombre de modelo", description = "Devuelve una maquina de pinball a partir de su nombre de modelo exacto (no distingue mayusculas/minusculas)")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Maquina encontrada"),
+        @ApiResponse(responseCode = "404", description = "No existe una maquina con ese nombre de modelo"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    @GetMapping("/search")
+    public ResponseEntity<PinballMachineResponseDto> getPinballByModelName(
+            @Parameter(description = "Nombre de modelo exacto a buscar", example = "Twilight Zone")
+            @RequestParam String modelName) {
+        return ResponseEntity.ok(toResponse(service.findByModelName(modelName)));
+    }
+
     @Operation(summary = "Registrar maquina de pinball", description = "Crea una nueva maquina de pinball en el catalogo")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Maquina creada exitosamente"),
         @ApiResponse(responseCode = "400", description = "Datos invalidos"),
         @ApiResponse(responseCode = "409", description = "Ya existe una maquina con el mismo nombre de modelo"),
+        @ApiResponse(responseCode = "422", description = "Violacion de una regla de negocio del dominio"),
         @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @PostMapping
@@ -79,6 +95,7 @@ public class PinballMachineController {
         @ApiResponse(responseCode = "200", description = "Maquina actualizada exitosamente"),
         @ApiResponse(responseCode = "400", description = "Datos invalidos"),
         @ApiResponse(responseCode = "404", description = "Maquina no encontrada"),
+        @ApiResponse(responseCode = "422", description = "Violacion de una regla de negocio del dominio"),
         @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @PutMapping("/{id}")
@@ -120,18 +137,18 @@ public class PinballMachineController {
 
     private PinballMachineResponseDto toResponse(PinballMachine domain) {
         return new PinballMachineResponseDto(
-                domain.id(),
-                domain.modelName(),
-                domain.manufacturer(),
-                domain.rarityTier(),
-                domain.imageUrl(),
-                domain.historicalSummary(),
-                domain.releaseYear(),
-                domain.unitsProduced(),
-                domain.restorationCostUsd(),
-                domain.conditionRating(),
-                domain.isFullyFunctional(),
-                domain.hasMultiball()
+                domain.getId(),
+                domain.getModelName(),
+                domain.getManufacturer(),
+                domain.getRarityTier(),
+                domain.getImageUrl(),
+                domain.getHistoricalSummary(),
+                domain.getReleaseYear(),
+                domain.getUnitsProduced(),
+                domain.getRestorationCostUsd(),
+                domain.getConditionRating(),
+                domain.getIsFullyFunctional(),
+                domain.getHasMultiball()
         );
     }
 
