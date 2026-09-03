@@ -76,10 +76,6 @@ arcademania-backend/
 
 `PinballMachine` (en `domain.model`) es una clase de dominio que valida sus propias invariantes en el constructor y en cada setter (nombre de modelo, fabricante, año de lanzamiento, unidades producidas, costo de restauración, rating de condición e indicadores de funcionalidad), lanzando una excepción de dominio específica ante cualquier valor inválido. `PinballMachineEntity` (en `infrastructure.persistence`) es la entidad JPA correspondiente, sin ninguna regla de negocio. La conversión entre ambas se realiza en `PinballMachineServiceImpl`; la conversión entre `PinballMachine` y los DTO de la API se realiza en `PinballMachineController`.
 
-### Decisión de diseño: Service/ServiceImpl en vez de Use Cases
-
-El proyecto usa deliberadamente el patrón clásico **Service/ServiceImpl** (una interfaz con todos los métodos del recurso) en lugar de un caso de uso por operación (`CreatePinballMachineUseCase`, `DeletePinballMachineUseCase`, etc.). Esto es consistente con los dos proyectos de referencia del curso: **NeonPulse** (`application/service/ConcertServiceImpl`) y **RigVault** (`application/service/RigUserServiceImpl`) — ninguno de los dos usa Use Cases. Con una sola entidad y operaciones CRUD de un solo paso, separar cada operación en su propia clase duplicaría la estructura sin aportar nada: el patrón Use Case rinde cuando una operación orquesta múltiples pasos (varios repositorios, eventos, validaciones cruzadas), no en un CRUD simple.
-
 ---
 
 ## Variables de entorno
